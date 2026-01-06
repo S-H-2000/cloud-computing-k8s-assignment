@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pet-order
+  namespace: pet-business
 env:
   - name: MONGO_URI
     value: "mongodb://database:27017"
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: pet-order
@@ -20,7 +21,7 @@ spec:
           image: pet-order:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 5000
+            - containerPort: 8080
           resources:
             requests:
               cpu: 200m

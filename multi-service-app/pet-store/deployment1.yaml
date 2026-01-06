@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pet-store1
+  namespace: pet-business
 env:
   - name: STORE_ID
     value: "1"
@@ -27,7 +28,7 @@ spec:
           image: pet-store1:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 5000
+            - containerPort: 8000
           resources:
             requests:
               cpu: 200m

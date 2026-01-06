@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
+  namespace: pet-business
 spec:
   replicas: 1
   selector:
@@ -13,21 +14,15 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: database
-        image: nginx:latest  # Changed from database:latest
-        ports:
-          - containerPort: 27017 # Standard Mongo port
-        volumeMounts:
-          - name: mongo-storage
-            mountPath: /data/db # Where Nginx saves data inside container
-          resources:
-            requests:
-              cpu: 200m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-vol
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
       volumes:
-      - name: mongo-storage
-        persistentVolumeClaim:
-          claimName: mongo-pvc # Must match your PVC filename
+        - name: nginx-config-vol
+          configMap:
+            name: nginx-config # Matches metadata.name in configmap.yaml
