@@ -1,0 +1,44 @@
+events {}
+
+http {
+    upstream pet_store1_backend {
+        server pet-store1:8000;
+    }
+    
+    upstream pet_store2_backend {
+        server pet-store2:8000;
+    }
+    
+    upstream pet_order_backend {
+        server pet-order:8080;
+    }
+
+    server {
+        listen 80;
+
+        #PET-STORE 1 (read-only)
+        location /pet-types1 {
+            limit_except GET {
+                deny all;
+            }
+            proxy_pass http://pet_store1_backend/pet-types;
+        }
+
+        #PET-STORE 2 (read-only)
+        location /pet-types2 {
+            limit_except GET {
+                deny all;
+            }
+            proxy_pass http://pet_store2_backend/pet-types;
+        }
+
+        # Controls the pathway for a consumer to only post an order (POST only)
+        location /purchases {
+            limit_except POST {
+                deny all;
+            }
+            proxy_pass http://pet_order_backend;
+        }
+        error_log /var/log/nginx/error.log debug;
+    }
+}
