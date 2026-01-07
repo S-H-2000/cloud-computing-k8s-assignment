@@ -2,13 +2,16 @@ FROM python:alpine3.17
 
 WORKDIR /app
 
-COPY app/requirements.txt . 
+# Copy from the build context into the current folder (.)
+COPY pet-order/app/requirements.txt . 
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/pet_order.py .
+# Copy the app file to the current folder (.)
+COPY pet-order/app/pet_order.py .
 
-ENV FLASK_APP=app/pet_order.py
+# FIXED: Point FLASK_APP to the file in the current directory
+ENV FLASK_APP=pet_order.py
 ENV FLASK_RUN_PORT=8080
 
 EXPOSE 8080

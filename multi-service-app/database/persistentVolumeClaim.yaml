@@ -4,7 +4,7 @@ metadata:
   name: mongo-pvc
   namespace: pet-business # Don't forget the namespace!
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:

@@ -3,11 +3,6 @@ kind: Deployment
 metadata:
   name: pet-store2
   namespace: pet-business
-env:
-  - name: STORE_ID
-    value: "2"
-  - name: MONGO_URI
-    value: "mongodb://database:27017" # 'database' will be the name of your DB Service
 spec:
   replicas: 1
   selector:
@@ -20,14 +15,24 @@ spec:
     spec:
       containers:
         - name: pet-store2
-          image: pet-store2:latest
+          image: pet-store1:latest # <--- MUST match store1 image to avoid Dockerfile2 error
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
+          env:
+            - name: STORE_ID
+              value: "2"
+            - name: MONGO_URI
+              value: "mongodb://database:27017"
+            - name: NINJA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ninja-api-secret
+                  key: NINJA_API_KEY
           resources:
+            requests: # <--- ADDED THIS KEY
               cpu: 200m
               memory: 128Mi
             limits:
               cpu: 500m
               memory: 512Mi
-#
