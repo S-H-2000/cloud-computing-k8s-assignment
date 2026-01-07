@@ -22,23 +22,17 @@ data:
         server {
             listen 80;
 
-            #PET-STORE 1 (read-only)
+            # PET-STORE 1: Allow GET, POST, DELETE (Required for validation)
             location /pet-types1 {
-                limit_except GET {
-                    deny all;
-                }
                 proxy_pass http://pet_store1_backend/pet-types;
             }
 
-            #PET-STORE 2 (read-only)
+            # PET-STORE 2: Allow GET, POST, DELETE (Required for validation)
             location /pet-types2 {
-                limit_except GET {
-                    deny all;
-                }
                 proxy_pass http://pet_store2_backend/pet-types;
             }
 
-            # Controls the pathway for a consumer to only post an order (POST only)
+            # PET ORDER: Only POST allowed (As per Assignment 2 requirements)
             location /purchases {
                 limit_except POST {
                     deny all;
@@ -46,7 +40,7 @@ data:
                 proxy_pass http://pet_order_backend;
             }
 
-            # GET transactions endpoint (GET only)
+            # TRANSACTIONS: Only GET allowed (As per Assignment 2 requirements)
             location /transactions {
                 limit_except GET {
                     deny all;
