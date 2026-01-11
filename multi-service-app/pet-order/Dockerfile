@@ -10,7 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the app file to the current folder (.)
 COPY pet-order/app/pet_order.py .
 
-# FIXED: Point FLASK_APP to the file in the current directory
 ENV FLASK_APP=pet_order.py
 ENV FLASK_RUN_PORT=8080
 

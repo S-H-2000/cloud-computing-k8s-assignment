@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc
-  namespace: pet-business # Don't forget the namespace!
+  namespace: pet-business
 spec:
   storageClassName: standard
   accessModes:

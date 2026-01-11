@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pet-store2
-          image: pet-store1:latest # <--- MUST match store1 image to avoid Dockerfile2 error
+          image: pet-store1:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
@@ -30,7 +30,7 @@ spec:
                   name: ninja-api-secret
                   key: NINJA_API_KEY
           resources:
-            requests: # <--- ADDED THIS KEY
+            requests:
               cpu: 200m
               memory: 128Mi
             limits:

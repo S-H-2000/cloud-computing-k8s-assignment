@@ -25,4 +25,4 @@ spec:
       volumes:
         - name: nginx-config-vol
           configMap:
-            name: nginx-config # Matches metadata.name in configmap.yaml
+            name: nginx-config
